@@ -1,0 +1,61 @@
+@extends('layouts.app')
+
+@section('content-header')
+    <h1>Edit Mobile</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('mobiles.index') }}">
+                <i class="fa fa-dashboard"></i> Mobiles
+            </a>
+        </li>
+        <li class="active">Edit</li>
+    </ol>
+@endsection
+
+@section('content')
+
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                {{ ucfirst(optional($mobile->Brand)->title) }}
+                {{ !empty($mobile->title) ? $mobile->title : 'Mobile' }}
+            </h3>
+
+            <div class="box-tools pull-right">
+                <a href="{{ route('mobiles.index') }}" class="btn btn-sm btn-info"
+                   title="Show All Mobile">
+                    <i class="fa fa-th-list" aria-hidden="true"></i>
+                </a>
+
+                <a href="{{ route('mobiles.create') }}" class="btn btn-sm btn-success"
+                   title="Create New Mobile">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <form method="POST" class="form-horizontal" action="{{ route('mobiles.update', $mobile->id) }}" id="edit_mobile_form"
+              name="edit_mobile_form">
+            {{ csrf_field() }}
+            <input name="_method" type="hidden" value="PUT">
+            <div class="box-body">
+
+                @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+
+                @include ('mobiles.form', ['mobile' => $mobile,])
+            </div>
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Update</button>
+            </div>
+        </form>
+
+    </div>
+
+@endsection
